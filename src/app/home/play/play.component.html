@@ -1,0 +1,128 @@
+<div class="play-wrapper">
+  <button
+    class="redButton"
+    style="
+      height: 30px !important;
+      width: 150px !important;
+      margin: 10px 0 0 20px;
+    "
+    (click)="redirect()"
+  >
+    Go back
+  </button>
+
+  <div class="game-container" *ngIf="!done">
+    <div
+      *ngIf="showedWord"
+      class="subText"
+      style="font-size: 50px; margin-top: 100px;"
+    >
+      <p>The translation of</p>
+      <p
+        style="
+          margin: 50px;
+          font-weight: bold;
+          font-size: 70px;
+          color: #379683;
+        "
+      >
+        {{ untranslatedWord }}
+      </p>
+      <p>is</p>
+      <p style="font-size: 55px; margin-top: 50px;">"{{ translation }}"</p>
+    </div>
+    <p
+      *ngIf="!showedWord || !isCorrect"
+      class="subText"
+      style="margin-top: 35px; font-size: 30px;"
+    >
+      Write the correct English translation of the word:
+    </p>
+
+    <h1
+      *ngIf="!showedWord"
+      class="subText"
+      style="
+        padding-top: 30px;
+        font-size: 50px;
+        font-weight: bold;
+        color: #379683;
+      "
+    >
+      {{ untranslatedWord }}
+    </h1>
+
+    <div style="height: 250px;">
+      <p *ngIf="hasSubmitted" style="margin-bottom: -70px;" class="subText">
+        {{ feedback }}
+      </p>
+      <input
+        placeholder="Write your answer here"
+        *ngIf="!showedWord"
+        [(ngModel)]="guess"
+        class="inputField"
+        type="text"
+        style="height: 60px; margin-top: 60px;"
+      />
+    </div>
+
+    <button
+      *ngIf="!showedWord || !isCorrect"
+      class="submitButton"
+      style="height: 50px !important; width: 250px !important; margin: 10px;"
+      (click)="submitAnswer()"
+      [disabled]="isCorrect || guess === ''"
+    >
+      Submit
+    </button>
+
+    <button
+      *ngIf="isCorrect || showedWord"
+      class="skipButton"
+      style="height: 50px !important; width: 250px !important; margin: 10px;"
+      (click)="nextWord()"
+    >
+      Next word
+    </button>
+
+    <button
+      *ngIf="!next || !isCorrect"
+      class="skipButton"
+      style="height: 50px !important; width: 250px !important; margin: 10px;"
+      (click)="showWord()"
+    >
+      Skip word
+    </button>
+
+    <button
+      class="redButton"
+      style="
+        height: 50px !important;
+        width: 250px !important;
+        margin: 20px 0 15px 0;
+      "
+      (click)="showResult()"
+    >
+      End game
+    </button>
+  </div>
+
+  <div *ngIf="done" class="game-container">
+    <p class="subText" style="margin-top: 100px; font-size: 55px;">
+      You got {{ percentageOfCorrect }} %, or {{ noOfCorrectWords }} out of
+      {{ noOfTotalWords }}, correct!
+    </p>
+    <button
+      *ngIf="done"
+      class="submitButton"
+      style="
+        height: 100px !important;
+        width: 300px !important;
+        font-size: 40px;
+      "
+      (click)="playAgain()"
+    >
+      Play again!
+    </button>
+  </div>
+</div>
